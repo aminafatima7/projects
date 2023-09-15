@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Chocolate Pack</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            padding: 20px 0;
+        }
+
+        .chocolate-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            width: 200px;
+        }
+
+        .chocolate-card img {
+            max-width: 100px;
+            max-height: 100px;
+            margin: 10px auto;
+            display: block;
+        }
+
+        .chocolate-card h3 {
+            color: #333;
+        }
+
+        .chocolate-card p {
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .add-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        #custom-pack {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        #total-price {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Build Your Custom Chocolate Pack</h1>
+
+    <div class="button-container">
+        <!-- Add Chocolate buttons will be added here dynamically -->
+    </div>
+
+    <div id="custom-pack">
+        <h2>Your Custom Pack</h2>
+        <div id="custom-pack-list">
+            <!-- Custom pack items will be added here dynamically -->
+        </div>
+        <p id="total-price">Total Price: ₹0.00</p>
+    </div>
+
+    <script>
+        const chocolates = [
+            { id: 1, name: 'Chocolate A', price: 100, image: 'images/chocolateA.jpg' },
+            { id: 2, name: 'Chocolate B', price: 120, image: 'images/chocolateB.jpg' },
+            { id: 3, name: 'Chocolate C', price: 90, image: 'images/chocolateC.jpg' },
+            { id: 4, name: 'Chocolate E', price: 90, image: 'images/chocolateE.jpg' },
+            // Add more chocolates here
+        ];
+
+        const maxChocolates = 8;
+        const selectedChocolates = [];
+        let totalPrice = 0;
+
+        function updateCustomPack() {
+            const customPackList = document.getElementById('custom-pack-list');
+            customPackList.innerHTML = '';
+
+            selectedChocolates.forEach(chocolate => {
+                const card = document.createElement('div');
+                card.classList.add('chocolate-card');
+
+                const image = document.createElement('img');
+                image.src = chocolate.image;
+                image.alt = chocolate.name;
+
+                const name = document.createElement('h3');
+                name.textContent = chocolate.name;
+
+                const price = document.createElement('p');
+                price.textContent = `₹${chocolate.price.toFixed(2)}`;
+
+                card.appendChild(image);
+                card.appendChild(name);
+                card.appendChild(price);
+
+                customPackList.appendChild(card);
+            });
+
+            const totalPriceElement = document.getElementById('total-price');
+            totalPriceElement.textContent = `Total Price: ₹${totalPrice.toFixed(2)}`;
+        }
+
+        function addToCustomPack(chocolate) {
+            if (selectedChocolates.length < maxChocolates) {
+                selectedChocolates.push(chocolate);
+                totalPrice += chocolate.price;
+                updateCustomPack();
+            } else {
+                alert('Custom pack can have a maximum of 8 items.');
+            }
+        }
+
+        const buttonContainer = document.querySelector('.button-container');
+
+        chocolates.forEach(chocolate => {
+            const button = document.createElement('button');
+            button.classList.add('add-button');
+            button.textContent = `Add ${chocolate.name}`;
+            button.addEventListener('click', () => addToCustomPack(chocolate));
+            buttonContainer.appendChild(button);
+        });
+    </script>
+</body>
+</html>
